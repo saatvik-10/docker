@@ -24,4 +24,4 @@
 ## Docker Compose Steps
 
     -Install docker, docker-compose
-    -Run 'docker-compose up'
+    -Run 'docker compose up'
