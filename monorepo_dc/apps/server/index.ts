@@ -29,10 +29,8 @@ app.post('/user', async (req, res) => {
                 password
             }
         })
-        console.log('User created:', user)
         res.status(201).json(user)
     } catch (err) {
-        console.error('Error creating user:', err)
         res.status(500).json(err)
     }
 })
