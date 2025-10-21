@@ -1,0 +1,23 @@
+FROM oven/bun:latest
+
+WORKDIR /usr/app/mono
+
+ARG DATABASE_URL
+
+COPY ./packages ./packages
+COPY ./bun.lockb ./bun.lockb
+
+COPY ./packages ./packages
+COPY ./turbo.json ./turbo.json
+
+COPY ./apps/web ./apps/web
+
+RUN bun install
+RUN bun run db:generate
+RUN DATABASE_URL=${DATABASE_URL} bun run build
+
+EXPOSE 3000
+
+CMD [ "bun", "run", "start:web" ]
+
+# DOCKER-FILE BECOMES TRICKY WHEN NEXTJS NEEDS TO TALK TO THE DB DURING THE BUILD PHASE
