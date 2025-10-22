@@ -1,0 +1,28 @@
+## Building docker image
+## Pushing docker image to docker hub
+## SSH into VM and start new image
+
+name: Deploying to server
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Docker login
+        uses: docker/login-action@v2 ##docker login
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push ##docker build and docker push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/Dockerfile.server
+          push: true
+          tags: saatvik10/monorepo-dc-server:${{ github.sha }}
